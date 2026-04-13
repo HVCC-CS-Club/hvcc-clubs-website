@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-{% if title %} 
+{% if title %}
 {{title}}
 {% else %}
 Hudson Valley Club Catalogue
@@ -10,14 +10,74 @@ Hudson Valley Club Catalogue
 
 
 {% block head %}
-    {{ super() }}
-    <style type="text/css">
-        .important { color: #336699; }
-    </style>
+{{ super() }}
+<style type="text/css">
+
+    .important {
+        color: #336699;
+        font-family: sans-serif;
+    }
+
+    .activeClubListItem {
+        outline: 1px solid black;
+        width: 50%;
+        font-family: sans-serif;
+    }
+
+    .inactiveClubListItem {
+        outline: 1px solid black;
+        width: 50%;
+        font-family: sans-serif;
+    }
+
+    body {
+        font-family: sans-serif;
+    }
+
+    .activeClubItemImage {
+        width: 40px;
+        height: 40px;
+    }
+
+    .activeClubItemTitle {
+        display: flex;
+    }
+
+    .inactiveClubItemImage 
+    {
+        width: 40px;
+        height: 40px;
+        filter: grayscale(100%)
+    }
+
+</style>
 {% endblock %}
 {% block content %}
-    <h1>Index</h1>
-    <p class="important">
-      Welcome!
-    </p>
+<h1>Hudson Valley Community College Club List:</h1>
+<h2 class="activeClubsListTitle">
+    Currently Active Clubs:
+</h2>
+<div class="activeClubListItem">
+    <h1 class="activeClubItemTitle">
+        <img class="activeClubItemImage" src="data:image/png;base64,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" />
+        Computer Science Club
+    </h1>
+    <p class="activeClubItemDesc">Insert a short description here</p>
+
+
+</div>
+
+<h2 class="inactiveClubsListTitle">
+    Inactive Clubs:
+</h2>
+<div class="inactiveClubListItem">
+    <h1 class="inactiveClubItemTitle">
+        <img class ="inactiveClubItemImage"src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOMAAACnCAYAAADjR+s2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAriSURBVHhe7dMBjuNGDETRuf9xc4EEo8TKzNuWLNtSN9liAR8LzJpiFcn++rtUKoXQl38olUpjVI+xVAqieoylUhDVYyyVgqgeY6kURPUYS6UgqsdYKgVRPcag+vr6Oo1SDtWmBspHM4pSDNUmOskHEJ1Sf9XUL5LHnZ3S9aopnygPeGZK56um+oE80LP5+6/z8NtnUjpHNck35DG+iw9mFPr6hNL7qukdlEf3Dj6CqOj7HUqvq6b2RB7ZUTzw7JjvKKXjqmltyKM6ggc8K+Y+Qum5akrII3qGh3o3nMczStuq6fwnj+YZHmXx54z2KP2p20/FI9nD4yvaOLc9Sv/rttPwKPbw2IpjOMc9Sjd9jB7CFh5X8R7OdY8761bpXfwWHlNxDs55i7vqFsld9hYeT3ENzn2Lu2n6xC64hcdS9ME9tLiTpk7rYlt4IEV/3IncRVMmdZktPIh3OOs7xZ/7aTG7pkvoAsUjeAe/edZ3o9Izn3OVmTVVOhcnLv5d/O6Z347GiIzOVmbVNMlcmLjwd/G7V/SIgNke+XrltLfMqClSuSgP6Cz87pW9RmO2UTntLTMpdRoXIy72U/x+C2syYqYW1lyJvWUWpU3iQsSFnoV9evTsjblaWHM19pcZlDKFixAXeTb269W3F+ZqYU0P9CDZlS6BCxAXeAX27N3/SsyzhXU90csvX4mVyr2DF5d2Bfbs3f9qzLSFdb3Rzy9vSZXKuUMfcRz2HeHhaszVwpoR6OmXv4RK49phjzgKe7ewJiNmamHNKPS1+kuoFK4d9KijsHcLazJiphbWjERvq8dkCu/YAY88CPu3sCYjZmphzUj09stnIoV262BHH4MeWliTDfNsYd1o9PfLaxKFdepAIxyCPlpYkxEzib+Pgj5/eU6gsC4dZpRD0I/4+2yYZwvroqDP1W8ChXTpIKMcgH5aWJMN87SwJhr6XX0HVziHDjDSAeiphTXZME8LayKi59V7YIVz5/CiHYC+xN9nxEzi7yOi59V7YIVy5+CiLf/hRX9iXSbM0sKaqOh79R9UYZw5sKiL118La7JgjhbWREf/a46ACuPKYUVdvv5aWJMFc7SwJjr6X3MEVAhXDiry4vXYwposmKOFNRkww5olmEI4ckiRl67PFtZkwRwtrMmCOZYswTTckQOKvnR9ir/Pgjm2sC4L5ljzBNJwNw4n+sL1Kv4+E2YRf58N86y5gmioE4eSYel6FX+fBXNsYV0mzLJmCqKhThxKhmXrt4U1GTBDC2syYqY1WwANc+EwMixcry2syYI5WliTFXMt2QJomAuHkWHZ+m1hTSbM0sKajJhpyRVAQ1w4iCyL1m8LazJhlhbWZMRMa7bBGuLAIWRZsp5bWJMFc7SwJjNmW/INVncHDiDTovXcwpoMPHybRazLjNnWjAPVvbvhMy1Z3+LvM2GWFtZkx3xLxoHq3t3wmZas7xbWZMEcW1iXGbMt+Qaqa3eDZ1uwvltYkwVzbGFddsy3ZBykrp0NnWm5+t7CugyYYQ9rs2O+JeMgde1s6EzL1fcW1mXADHtYmx3zLRkHqVtnA2dcrt5bWJMFc7R4/M7azJhxzTpA3boaNttS9d7CmiyY4xnWZ8d8S8YB6tbVsNmWqvcW1mTBHHtYOwNmXHIOULeuhs22WL23sCYL5tjD2hkw45JzgLp1NWzGxeo/cxYxTwtrZsGca97O6tLRkJkXa47secRcs+XbwrxL5s7q0tGQmZdrhsxZWvzMZdaZMe+SubO6dDTkDMudIcMes+cT77MeYxGKO+3J+6zHWBSD8D6nfIwGrIdYRMU77f0gL+9muHqMRVS803qMRTEI77QeY1EMwjutx1gUg/BO6zEWxSC803qMRTEI77QeY1EMwjutx1gUg/BO6zEWxSC803qMRTEI77QeYzEd7j3qDXin9RiL6XD/UW9Aj/UYi6lw95HvQH+Lx466vJvhIi6huAb33sKakeht8ddRl3cz3IgljOh5d9y3+PsI6HHx2VFduhmw1zLs2bP33XnM2dmLdaPQ1+Kts7p0NGSPJdhP/H1xHs5a/H0E9Lj47KwuHQ3ZYyH2E39fnIez3sK6keht8ddZXToa8upF2GsL64pzcM6PWUeeuX4Xr53VpaMheyzFfltYV3yG821hTQT0uPjsrC4dDdljKfaSx2+sK97HGW9h3Wj0t/rsrG4dDdpjKfaTx2+sK17H2W5hXQT0uPgcoG5dDdtrMfZsYU3xOs60hTVR0OfidYC6dTVs7+XYu4U1xTGc4xbWRUGfi9cB6tbVsL0XZN8W1hTPcYZ7WBsBPa5eB6hrVwP3XpC9W1hT7OP8trAuCvpcvA5S186GHrEk+7ewpmjj3PawNgr6XLwOUtfOhh6xKHu3sKZo49y2sC4Sel38DlL3zgYfsSz772Ft8S/OaQvrIqHXxe9Ade9u+BELs//Dg38b4S0DzmgPayOh18XvQHXvbvhRS7P/M6y/I85kD2ujod/V90AN6e4ARi1PD1v8/L3fuAvOZA9rI6LnxfdgDXHgEEYuUQ9H8TuzYu4j+I1o6Hf1PVjDHDiIkUvUx1H8zkyY9Sh+JyJ6XnwH0DAXDmP0IvXyjEeN35kJMz/D+qjoe/EeQMNcOIwIC9XLEfxGVn5mMeNR/GZE9Lx6D6ChLhxIhKXq5SiPWr8XmZ++P8VvR0Xfi/cgGurEoURarJ5exe9F5KdX/b+C342Kvlf/QTTciYOJsmD9fILfHsXDi/4+xT4R0fPqPZBCuHFAURasp0/x+z3QwxXYMyJ6Xr0HUgg3DijSkvV0Bva4Cvs+evu3T7BnRPS8eg+mMI4cVJRF6+lsHj3s26JV6/+1fncV+ouKvhfvARXGlcOKtnB9nc1Wj62/j8TZREbva4aACuXKgUVe/sOXXmfGGURH/2uOoArlzKFlOISf/vQ8G2aPjN5/5QiqcM4cXLZD0LcZ/FtEWj7NGR39rzkCK6Q7B5jxIPSeGbNFR/9rjuAK69BBZj2Mb8yQBXNkwAxrlgQK69JhZj+SB2Y5k8f3P+2j5yyY41emBArt0oHOcDAPzPMOfsvv//zXv+2h1wyY4VeeJArv1MFmP5qfmOcV/NYnnP29ETifdU6JlMKtA77iIKPwyDVzxrPxLjI+xG+lceyg61iLb7yHrA/xW6lcO/B6kPfGO6jH2FEOvB7kfXH/2R/it9I5d/D1IO+He5/hIX4rpXsXIC6vmAd3PctD/FbaBC5CXGKRG/crMyh1ChciLrTIiXuVWZQ+iYsRF1vkwn3KTJomjUuqB5kf9yizaapELktcdhET9yazarpkLk5cfBEL9yUza8p0LrCFR1CMxf20mF1TJ3SZ4kEUY3AvLe6g6VO61BYeR9EH99DiTrpFWhe8hcdSXINz3+JuulVil72Fx1Ocg3Pe4q66XXIXv4fHVLyHc93jzrpteo9gD4+rOIZz3KN048f4kEexh8dWtHFue5T+V03jP3kke3h8xb84pz1Kf6qmgjyaZ3iQd8N5HKHUVk2mIY/nKB7qrJj7KKV91YSeyIM6igecHfMdpXRcNa2D8shexeOOjv5fpfS6amovyqP7BB/AKPT1CaX3VdP7QB7imfhgPsXvn0npHNUkT5IHOjul81VTvUAe7iyUrlVNuJM87OiU+qumPkge/2hK41VbCCofy6eU4qu2VCoFUT3GUimI6jGWSkFUj7FUCqJ6jKVSENVjLJWCqB5jqRRE/wCYJNUof32FOAAAAABJRU5ErkJggg==" />
+        Sleeping Club
+    </h1>
+    <p class="activeClubItemDesc">Insert a short description here</p>
+
+
+</div>
+
 {% endblock %}
